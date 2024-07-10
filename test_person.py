@@ -29,15 +29,21 @@ class Test_new_person(TestCase):
 
   @mock.patch('people.input', create=True)
   def test_no_name(self, mocked_input):
-    mocked_input.side_effect = ['', '', 0]
+    mocked_input.side_effect = ['', '', '0']
     result = people.Person().new_person()
     assert result==-1
 
   @mock.patch('people.input', create=True)
-  def test_number_in_name(self, mocked_input):
-    mocked_input.side_effect = ['5', '4', 5]
+  def test_number_in_first_name(self, mocked_input):
+    mocked_input.side_effect = ['5', 'Fith', '5']
     result = people.Person().new_person()
-    assert result.first_name.isalpha()==True
+    assert result == -1
+
+  @mock.patch('people.input', create=True)
+  def test_number_in_last_name(self, mocked_input):
+    mocked_input.side_effect = ['Lily', '6', '5']
+    result = people.Person().new_person()
+    assert result == -1
 
   @mock.patch('people.input', create=True)
   def test_str_in_age(self, mocked_input):
@@ -47,6 +53,6 @@ class Test_new_person(TestCase):
 
   @mock.patch('people.input', create=True)
   def test_negative_age(self, mocked_input):
-    mocked_input.side_effect = ['Aka', 'Deka', -10]
+    mocked_input.side_effect = ['Aka', 'Deka', '-10']
     result = people.Person().new_person()
-    assert (result.age>0)==True
+    assert result==-1

@@ -19,6 +19,7 @@ class Family:
   def love(self, my_love):
     self.love = my_love
 
+############################
 class Person(Family):
 
   def __init__(self, first_name=None, last_name=None, age=0):
@@ -59,8 +60,12 @@ class Person(Family):
   def new_person(cls):
     name = input("First name: ").title()
     l_name = input("Last name: ").title()
-    age = int(input("Age: "))
-    if not name or not l_name:
+    age = input("Age: ")
+    print(type(age))
+    if not name or not l_name or name.isalpha()==False or l_name.isalpha()==False or age.isnumeric()==False:
+      return -1
+    age = int(age)
+    if age<0:
       return -1
     return cls(name, l_name, age)
   
