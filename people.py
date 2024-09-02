@@ -21,6 +21,7 @@ class Family:
 
 ############################
 class Person(Family):
+  features = ('chivalry', 'shrewdness', 'intelligence', 'wit', 'creativity', 'patience', 'courage', 'pride', 'learning', 'daring', 'wisdom', 'hard-working', 'just', 'determination', 'modesty', 'ambition', 'nerve', 'cunning', 'acceptance', 'loyalty', 'bravery', 'resourcefulness', 'fairness', 'self-preservation')
 
   def __init__(self, first_name=None, last_name=None, age=0):
     super().__init__(self)
@@ -61,15 +62,45 @@ class Person(Family):
     name = input("First name: ").title()
     l_name = input("Last name: ").title()
     age = input("Age: ")
-    print(type(age))
-    if not name or not l_name or name.isalpha()==False or l_name.isalpha()==False or age.isnumeric()==False:
+    if not name or not l_name or name.isalpha()==False or l_name.isalpha()==False:
+      print("The character name does not meet the requirements. Make sure that the first name and last name contain only letters")
+      return -1
+    if age.isnumeric()==False:
+      print("Age must be an integer")
       return -1
     age = int(age)
     if age<0:
       return -1
     return cls(name, l_name, age)
   
-if __name__ == '__main__':
-  p1 = Person().new_person()
-  print(p1)
+  @classmethod
+  def create_person(cls):
+    person = -1
+    while person==-1:
+      try:
+        person = Person().new_person()
+        if person==-1:
+          raise Exception("Character creation error occurred")
+      except Exception:
+        print("Try again")
+      else:
+        print("Successfully created a character")
+        return person
+  
+class School(Person):
+  pass
 
+class Student(School):
+  Gryff = ('daring', 'nerve', 'chivalry', 'courage', 'bravery', 'determination')
+  Slyth = ('cunning', 'ambition', 'resourcefulness', 'determination', 'pride', 'self-preservation', 'shrewdness')
+  Huff = ('loyalty', 'just', 'hard-working', 'patience', 'fairness', 'modesty')
+  Rav = ('wit', 'learning', 'wisdom', 'acceptance', 'intelligence', 'creativity')
+
+class Topic(School):
+  pass
+
+class Teacher(School, Topic):
+  pass
+if __name__ == '__main__':
+  p1 = Person().create_person()
+  print(p1)
